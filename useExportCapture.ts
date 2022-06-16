@@ -1,10 +1,10 @@
 import html2canvas from "html2canvas";
-import { RefObject, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { ExportTypeT, takeScreenshotT, useExportCaptureT } from "./types";
 
 const createFileName = (extension: string, name: string) =>
   `${name}.${extension}`;
 
-type takeScreenshotT = (node: HTMLDivElement) => Promise<string | void>;
 const useScreenshot = (
   type: string,
   quality: number
@@ -53,13 +53,12 @@ const useScreenshot = (
   return { image, takeScreenshot };
 };
 
-export type ExportTypeT = "COPY" | "EXPORT";
-export const useExportCapture = (
-  refToCaputre: RefObject<HTMLDivElement>,
-  exportType: ExportTypeT,
-  fileType?: "png" | "jpg",
-  fileName?: string
-): { exportCapture: () => void } => {
+export const useExportCapture: useExportCaptureT = (
+  refToCaputre,
+  exportType,
+  fileType?,
+  fileName?
+) => {
   const [exportTypeState, setExportTypeState] = useState<
     ExportTypeT | undefined
   >(exportType);
